@@ -32,9 +32,17 @@ let classroom = new Classroom({
 classroom = await classroom.save()
 res.send(classroom)
 })
-app.put('/:id',(req,res)=>{
-
+app.put('/:id',async (req,res)=>{
+const classroom = await Classroom.findById(req.params.id)
+if (!classroom) return res.status(404).send('The course id is not available')
+classroom.name = req.body.name
+classroom.isGold = req.body.isGold
+classroom.phone = req.body.phone
+console.log(classroom)
+classroom.save()
+res.end()
 })
+
 app.delete('/:id',(req,res)=>{
 
 })
