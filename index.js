@@ -6,6 +6,7 @@ mongoose.connect("mongodb://localhost/classroom")
 .catch(e=>console.log(e))
 
 const app = express();
+app.use(express.json())
 const port = process.env.PORT || 5000;
 app.listen(port,()=>{
     console.log(`listening on port ${port}`)
@@ -22,8 +23,14 @@ app.get('/',async (req,res)=>{
     const classrooms = await Classroom.find()  
 res.send(classrooms)
 })
-app.post('/',(req,res)=>{
-
+app.post('/',async (req,res)=>{
+let classroom = new Classroom({
+    name: req.body.name,
+    isGold: req.body.isGold,
+    phone: req.body.phone
+})
+classroom = await classroom.save()
+res.send(classroom)
 })
 app.put('/:id',(req,res)=>{
 
