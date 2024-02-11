@@ -43,6 +43,9 @@ classroom.save()
 res.end()
 })
 
-app.delete('/:id',(req,res)=>{
-
+app.delete('/:id',async (req,res)=>{
+const classroom = await Classroom.findByIdAndDelete(req.params.id)
+if (!classroom) return res.status(404).send('The course id is not available')
+console.log(classroom)
+res.end("delete succesful")
 })
